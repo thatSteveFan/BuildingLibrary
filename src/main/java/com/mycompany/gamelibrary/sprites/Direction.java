@@ -11,5 +11,17 @@ package com.mycompany.gamelibrary.sprites;
  */
 public enum Direction
 {
-    UP, DOWN, LEFT, RIGHT
+    UP, DOWN, LEFT, RIGHT;
+    
+    Direction opposite()
+    {
+        switch (this)
+        {
+            case UP: return DOWN;
+            case LEFT: return RIGHT;
+            case RIGHT: return LEFT;
+            case DOWN: return UP;
+        }
+        throw new IllegalArgumentException();
+    }
 }

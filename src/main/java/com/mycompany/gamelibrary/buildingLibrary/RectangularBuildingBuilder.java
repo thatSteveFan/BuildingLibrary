@@ -5,13 +5,16 @@
  */
 package com.mycompany.gamelibrary.buildingLibrary;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.scene.image.Image;
-import static com.mycompany.gamelibrary.buildingLibrary.RectangularBuilding.*;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.shape.Rectangle;
+
+import static com.mycompany.gamelibrary.buildingLibrary.Building.DEFAULT_ANGLE;
+import static com.mycompany.gamelibrary.buildingLibrary.Building.DEFAULT_X;
+import static com.mycompany.gamelibrary.buildingLibrary.Building.DEFAULT_Y;
+import static com.mycompany.gamelibrary.buildingLibrary.RectangularBuilding.DEFALUT_DEPTH;
+import static com.mycompany.gamelibrary.buildingLibrary.RectangularBuilding.DEFALUT_WIDTH;
+import static com.mycompany.gamelibrary.buildingLibrary.RectangularBuilding.DEFAULT_HEIGHT;
 
 /**
  *
@@ -68,6 +71,13 @@ public class RectangularBuildingBuilder extends BuildingBuilder<Rectangle>
          RectangularBuilding b = new RectangularBuilding(frontImage.get(), leftImage.get(), topImage.get(), rightImage.get(), angleProperty().getValue(), xProperty().getValue(), yProperty().getValue(), height.getValue(),width.getValue(), depth.getValue());
          return b;
     }
+    
+//    public RectangularBuilding buildBound()
+//    {
+//        RectangularBuilding b = new RectangularBuilding();
+//        
+//        
+//    }
 
     public final void setWidth(Double value)
     {

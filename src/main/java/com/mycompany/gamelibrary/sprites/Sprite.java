@@ -7,7 +7,9 @@ package com.mycompany.gamelibrary.sprites;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.scene.layout.Region;
+import javafx.geometry.Insets;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
 /**
@@ -34,6 +36,8 @@ public abstract class Sprite<T extends Shape> extends Region
         translateXProperty().set(x);
         translateYProperty().set(y);
         this.angle.set(angle);
+        setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY,
+                                                        Insets.EMPTY)));
     }
 
     public double getAngle()

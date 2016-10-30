@@ -5,16 +5,11 @@
  */
 package com.mycompany.gamelibrary.buildingLibrary;
 
-import eu.lestard.advanced_bindings.api.MathBindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
@@ -39,8 +34,15 @@ public class RectangularBuilding extends Building<Rectangle>
     private final ObjectProperty<Image> topImage = new SimpleObjectProperty<>();
     private final ObjectProperty<Image> frontImage = new SimpleObjectProperty<>();
     private final DoubleProperty depth = new SimpleDoubleProperty();
+
+    public RectangularBuilding()
+    {
+        this(null);
+    }
     
 
+    
+    
     RectangularBuilding(Image image)
     {
         this(image, image, image, image);
@@ -79,6 +81,11 @@ public class RectangularBuilding extends Building<Rectangle>
         Group root = new Group(makeBuilding());
         getChildren().add(root);
 
+    }
+    
+    RectangularBuilding(ObjectProperty<Image> front, ObjectProperty<Image> left, ObjectProperty<Image> top, ObjectProperty<Image> right, DoubleProperty angle, DoubleProperty x, DoubleProperty y, DoubleProperty height, DoubleProperty width, DoubleProperty depth)
+    {
+        
     }
 
     public Image getLeftImage()

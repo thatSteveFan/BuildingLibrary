@@ -1,11 +1,8 @@
 package com.mycompany.gamelibrary;
 
-import com.mycompany.gamelibrary.UI.*;
-import com.mycompany.gamelibrary.buildingLibrary.RectangularBuilding;
-import com.mycompany.gamelibrary.buildingLibrary.RectangularBuildingBuilder;
-import com.mycompany.gamelibrary.sprites.Direction;
-import static com.mycompany.gamelibrary.sprites.Direction.*;
-import com.mycompany.gamelibrary.sprites.FourDirectionRectangularSprite;
+import com.mycompany.gamelibrary.UI.FocusRejectingSlider;
+import com.mycompany.gamelibrary.UI.FoucsRejectingTitledPane;
+import com.mycompany.gamelibrary.game.DebuggingLevel;
 import eu.lestard.advanced_bindings.api.MathBindings;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,39 +10,18 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import static javafx.application.Application.launch;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.geometry.Pos;
-import javafx.scene.AmbientLight;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.PerspectiveCamera;
-import javafx.scene.Scene;
-import javafx.scene.SceneAntialiasing;
-import javafx.scene.SubScene;
+import javafx.scene.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TitledPane;
-import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.*;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import static javafx.application.Application.launch;
 
 public class MainApp extends Application
 {
@@ -88,43 +64,15 @@ public class MainApp extends Application
     {
         StackPane root = new StackPane();
 
-        Group subRoot = new Group();
+        DebuggingLevel level = new DebuggingLevel();
+        Group subroot = new Group(level);
+        
+        //level.angleProperty().bind(cameraAngle);
+        
 
-//        ImageView image = new ImageView("https://www.petfinder.com/wp-content/uploads/2012/11/140272627-grooming-needs-senior-cat-632x475.jpg");
-//
-//        image.setFitWidth(50);
-//        image.setFitHeight(50 * 475 / 632.0);
-//        Rotate imageRotate = new Rotate(0, Rotate.X_AXIS);
-//        imageRotate.angleProperty().bind(cameraAngle);
-//        image.getTransforms().add(imageRotate);
-//        image.translateZProperty().bind(cameraSin.multiply(50 * 475).divide(632.0).negate());
-//        image.setTranslateX(500);
-//        image.setTranslateY(500);
-//        subRoot.getChildren().add(image);
-        Image spriteImage = new Image("https://www.petfinder.com/wp-content/uploads/2012/11/140272627-grooming-needs-senior-cat-632x475.jpg");
-        Image buildingImage = new Image("http://cloud.graphicleftovers.com/15054/81254/color-square-tiles-pattern.jpg");
-        FourDirectionRectangularSprite sprite = new FourDirectionRectangularSprite(
-                500, 500, 100, 70, 20, Direction.DOWN, spriteImage, spriteImage, spriteImage, buildingImage);
-
-        sprite.setPrefWidth(50);
-        sprite.setPrefHeight(50 * 475 / 632.0);
-        Rotate spriteRotate = new Rotate(0, Rotate.X_AXIS);
-        spriteRotate.angleProperty().bind(cameraAngle);
-        sprite.getTransforms().add(spriteRotate);
-        sprite.translateZProperty().bind(cameraSin.multiply(50 * 475).divide(632.0).negate());
-        sprite.setTranslateX(500);
-        sprite.setTranslateY(600);
-        subRoot.getChildren().add(sprite);
-
-        RectangularBuildingBuilder builder = new RectangularBuildingBuilder(buildingImage, buildingImage, buildingImage, buildingImage, RectangularBuilding.DEFAULT_ANGLE, 150, 150, 150, 0, 0);
-        for (int i = 0; i < 5; i++)
-        {
-            builder.setX(i * 200);
-            builder.setY(50 * i);
-            builder.setWidth(150.0 + 20 * i);
-            RectangularBuilding rb = builder.build();
-            subRoot.getChildren().add(rb);
-        }
+        level.buildingAngleProperty().bind(buildingAngle);
+        level.buildingHeightProperty().bind(height);
+        level.buildingWidthProperty().bind(width);
 
         //sprite.setBackground(new Background(new BackgroundFill(Color.RED, new CornerRadii(20), Insets.EMPTY)));
         //System.out.println(sprite.getImage());
@@ -138,10 +86,7 @@ public class MainApp extends Application
         //secondBuilding.translateYProperty().bind(notreDameYTranslate.add(width.multiply(1.5)));
         //subRoot.getChildren().add(secondBuilding);
         //Image BuildingImage = new Image("http://cloud.graphicleftovers.com/15054/81254/color-square-tiles-pattern.jpg");
-        SubScene subScene = new SubScene(subRoot, 350, 250, true, SceneAntialiasing.BALANCED);
-        AmbientLight sceneLight = new AmbientLight(Color.RED);
-        sceneLight.setLightOn(true);
-        ((Group) subScene.getRoot()).getChildren().add(sceneLight);
+        SubScene subScene = new SubScene(subroot, 350, 250, true, SceneAntialiasing.BALANCED);
 
         Pane subPane = new Pane(subScene);
 
@@ -150,8 +95,11 @@ public class MainApp extends Application
         subPane.minWidthProperty().set(200);
         subPane.minHeightProperty().set(200);
         subPane.setPrefHeight(Integer.MAX_VALUE - 1);
+        subPane.onMouseClickedProperty().set(e ->
+        {
+            level.requestFocus();
+        });
         //subPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-
         PerspectiveCamera camera = new PerspectiveCamera();
 
         camera.fieldOfViewProperty().set(20);
@@ -167,46 +115,14 @@ public class MainApp extends Application
         camera.translateXProperty().bind(stage.widthProperty().negate().divide(2).add(cameraXShift).add(500));
         camera.translateYProperty().bind((cameraYShift).add(500));
 
+        camera.translateXProperty().bind((subScene).widthProperty().negate().divide(2).add(cameraXShift).add(500));
+        camera.translateYProperty().bind((cameraYShift).add(500));
+        
         subScene.setCamera(camera);
 
-        BooleanProperty upKeyDown = new SimpleBooleanProperty(false);
-        BooleanProperty downKeyDown = new SimpleBooleanProperty(false);
-        BooleanProperty leftKeyDown = new SimpleBooleanProperty(false);
-        BooleanProperty rightKeyDown = new SimpleBooleanProperty(false);
 
-        BooleanProperty wKeyDown = new SimpleBooleanProperty(false);
-        BooleanProperty aKeyDown = new SimpleBooleanProperty(false);
-        BooleanProperty sKeyDown = new SimpleBooleanProperty(false);
-        BooleanProperty dKeyDown = new SimpleBooleanProperty(false);
 
-        sprite.directionProperty().bind(Bindings.createObjectBinding(()
-                -> 
-                {
-                    if (upKeyDown.getValue()
-                            || wKeyDown.getValue())
-                    {
-                        return UP;
-                    }
-
-                    if (downKeyDown.getValue()
-                            || sKeyDown.getValue())
-                    {
-                        return DOWN;
-                    }
-
-                    if (leftKeyDown.getValue()
-                            || aKeyDown.getValue())
-                    {
-                        return LEFT;
-                    }
-
-                    if (rightKeyDown.getValue()
-                            || dKeyDown.getValue())
-                    {
-                        return RIGHT;
-                    }
-                    return null;
-        }, upKeyDown, dKeyDown, aKeyDown, downKeyDown, leftKeyDown, rightKeyDown, wKeyDown, sKeyDown));
+        
 
         IntegerProperty startMouseX = new SimpleIntegerProperty();
         IntegerProperty startMouseY = new SimpleIntegerProperty();
@@ -244,104 +160,16 @@ public class MainApp extends Application
 //                    currentRotation.setValue(null);
 //                    //System.out.println("released"); 
 //        });
-        subScene.onKeyPressedProperty().set((e)
-                -> 
-                {
-                    //System.out.println("Key Pressed");
+        
 
-                    switch (e.getCode())
-                    {
-                        case UP:
-                            upKeyDown.setValue(true);
-                            break;
-                        case LEFT:
-                            leftKeyDown.setValue(true);
-                            break;
-                        case DOWN:
-                            downKeyDown.setValue(true);
-                            break;
-                        case RIGHT:
-                            rightKeyDown.setValue(true);
-                            break;
-                        case W:
-                            wKeyDown.setValue(true);
-                            break;
-                        case A:
-                            aKeyDown.setValue(true);
-                            break;
-                        case S:
-                            sKeyDown.setValue(true);
-                            break;
-                        case D:
-                            dKeyDown.setValue(true);
-                            break;
-                    }
-
-                    if (e.getCode() == KeyCode.P)
-                    {
-                        //notreDameRightX.setAngle(notreDameRightX.getAngle() + 1);
-                    }
-                    e.consume();
-        });
-
-        subScene.onKeyReleasedProperty().set(e
-                -> 
-                {
-                    switch (e.getCode())
-                    {
-                        case UP:
-                            upKeyDown.setValue(false);
-                            break;
-                        case LEFT:
-                            leftKeyDown.setValue(false);
-                            break;
-                        case DOWN:
-                            downKeyDown.setValue(false);
-                            break;
-                        case RIGHT:
-                            rightKeyDown.setValue(false);
-                            break;
-                        case W:
-                            wKeyDown.setValue(false);
-                            break;
-                        case A:
-                            aKeyDown.setValue(false);
-                            break;
-                        case S:
-                            sKeyDown.setValue(false);
-                            break;
-                        case D:
-                            dKeyDown.setValue(false);
-                            break;
-                    }
-
-        });
+        
 
         subScene.setOnMouseClicked(e -> subScene.requestFocus());
 
         Timeline t = new Timeline(new KeyFrame(new Duration(5), "animation", e
                                                -> 
                                                {
-                                                   if (upKeyDown.getValue() || wKeyDown.getValue())
-                                                   {
-                                                       cameraYShift.set(cameraYShift.get() - 1);
-                                                       sprite.setTranslateY(sprite.getTranslateY() - 1);
-                                                   }
-                                                   if (downKeyDown.getValue() || sKeyDown.getValue())
-                                                   {
-                                                       cameraYShift.set(cameraYShift.get() + 1);
-                                                       sprite.setTranslateY(sprite.getTranslateY() + 1);
-                                                   }
-                                                   if (leftKeyDown.getValue() || aKeyDown.getValue())
-                                                   {
-                                                       cameraXShift.set(cameraXShift.get() - 1);
-                                                       sprite.setTranslateX(sprite.getTranslateX() - 1);
-                                                   }
-                                                   if (rightKeyDown.getValue() || dKeyDown.getValue())
-                                                   {
-                                                       cameraXShift.set(cameraXShift.get() + 1);
-                                                       sprite.setTranslateX(sprite.getTranslateX() + 1);
-                                                   }
+                                                   level.tick();
 
                                        }));
         t.setCycleCount(Timeline.INDEFINITE);
@@ -350,25 +178,14 @@ public class MainApp extends Application
         GridPane grid = grid(10);
         grid.setGridLinesVisible(true);
 
-        grid.setMinSize(1000, 1000);
-        //grid.setBackground(new Background(new BackgroundImage(new Image("http://www.myfreetextures.com/wp-content/uploads/2015/01/grass-free-texture.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-        subRoot.getChildren().add(grid);
-
-        //grid.add(s, 0, 0);
-        GridPane grid2 = grid(10);
-        grid2.setGridLinesVisible(true);
-
-        grid2.setMinSize(1000, 1000);
-        //grid.setBackground(new Background(new BackgroundImage(new Image("http://www.myfreetextures.com/wp-content/uploads/2015/01/grass-free-texture.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-        grid2.getTransforms().add(new Rotate(-90, Rotate.X_AXIS));
-        subRoot.getChildren().add(grid2);
+        level.displayDebug(1000, 10);
 
         root.getChildren().add(subPane);
 
         root.setAlignment(Pos.TOP_CENTER);
 
-        VBox sliderArea = sliderArea(subRoot);
-        TitledPane sliderWrapper = new FoucsRejectingTitledPane("controls", sliderArea, subRoot);
+        VBox sliderArea = sliderArea(level);
+        TitledPane sliderWrapper = new FoucsRejectingTitledPane("controls", sliderArea, level);
         //http://stackoverflow.com/questions/28287398/what-is-the-preferred-way-of-getting-the-frame-rate-of-a-javafx-application
         AnimationTimer frameRateMeter = new AnimationTimer()
         {
@@ -396,10 +213,12 @@ public class MainApp extends Application
 
         root.getChildren().add(sliderWrapper);
 
-        subRoot.requestFocus();
+        level.requestFocus();
         stage.titleProperty().bind(fps);
         stage.setScene(scene);
         stage.show();
+        
+        System.out.println(subScene.getRoot().getChildrenUnmodifiable());
     }
 
     private VBox sliderArea(Node focusser)
