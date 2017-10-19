@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.gamelibrary.sprites;
+package com.mycompany.gamelibrary.game.sprite;
 
 /**
  * An enum for the four directions, used by various sprites
@@ -13,7 +13,7 @@ public enum Direction
 {
     UP, DOWN, LEFT, RIGHT;
     
-    Direction opposite()
+    public Direction opposite()
     {
         switch (this)
         {

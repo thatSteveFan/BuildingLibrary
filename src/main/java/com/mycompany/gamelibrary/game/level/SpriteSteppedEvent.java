@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.gamelibrary.game;
+package com.mycompany.gamelibrary.game.level;
 
-import com.mycompany.gamelibrary.sprites.Sprite;
+import com.mycompany.gamelibrary.game.sprite.Sprite;
 import javafx.event.Event;
 import javafx.event.EventType;
 import javafx.scene.shape.Shape;
@@ -18,13 +18,20 @@ import javafx.scene.shape.Shape;
 public class SpriteSteppedEvent extends Event
 {
     
-    Sprite<? extends Shape> sprite;
+    final Sprite<? extends Shape> sprite;
+    
+    public static final EventType<SpriteSteppedEvent> SPRITE_STEPPED = new EventType<>(ANY, "SPRITE_STEPPED");
+    
     public SpriteSteppedEvent(EventType<? extends SpriteSteppedEvent> eventType, Sprite<? extends Shape> sprite)
     {
         super(eventType);
         this.sprite = sprite;
     }
     
+    public Sprite<? extends Shape> getSprite()
+    {
+        return sprite;
+    }
     
     
 }

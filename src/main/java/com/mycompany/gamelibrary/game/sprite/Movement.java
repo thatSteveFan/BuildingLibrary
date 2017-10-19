@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.gamelibrary.sprites;
+package com.mycompany.gamelibrary.game.sprite;
 
 import java.util.Arrays;
 

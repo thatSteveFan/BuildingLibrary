@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.gamelibrary.sprites;
+package com.mycompany.gamelibrary.game.sprite;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.geometry.Insets;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Region;
 import javafx.scene.shape.Shape;
 
 /**
@@ -36,8 +34,8 @@ public abstract class Sprite<T extends Shape> extends Region
         translateXProperty().set(x);
         translateYProperty().set(y);
         this.angle.set(angle);
-        setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY,
-                                                        Insets.EMPTY)));
+//        setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY,
+//                                                        Insets.EMPTY)));
     }
 
     public double getAngle()

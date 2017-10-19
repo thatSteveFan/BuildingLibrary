@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.gamelibrary.sprites;
+package com.mycompany.gamelibrary.game.sprite;
 
-import eu.lestard.advanced_bindings.api.MathBindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -14,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
 
 /**
  * Provides the implementation for the rectangular sprite, so long as the property
@@ -59,10 +57,11 @@ public abstract  class RectangularSprite extends Sprite<Rectangle>
         
         Rotate rotate = new Rotate(Double.NaN, Rotate.X_AXIS);
         rotate.angleProperty().bind(angleProperty());
-        Translate zShift = new Translate();
-        zShift.zProperty().bind(heightProperty().multiply(MathBindings.sin(angleProperty())).negate());
-        container.getTransforms().addAll(rotate, zShift);
-        
+        rotate.pivotYProperty().bind(heightProperty());
+        //Translate zShift = new Translate();
+//        zShift.zProperty().bind(heightProperty().multiply(MathBindings.sin(angleProperty())).negate());
+        container.getTransforms().addAll(rotate);
+        //container.translateZProperty().bind(heightProperty().negate().multiply(MathBindings.cos(MathBindings.toRadians(angleProperty()))));
     }
     
     

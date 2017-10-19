@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.gamelibrary.sprites;
+package com.mycompany.gamelibrary.game.sprite;
 
-import static com.mycompany.gamelibrary.sprites.Direction.DOWN;
+
 import java.util.List;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
+
+import static com.mycompany.gamelibrary.game.sprite.Direction.DOWN;
 
 /**
  * A sprite with four images for the when moving four different directions
